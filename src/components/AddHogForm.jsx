@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function AddHogForm({ addHog }) {
   const [formData, setFormData] = useState({
@@ -7,87 +7,81 @@ function AddHogForm({ addHog }) {
     specialty: "",
     weight: "",
     greased: false,
-    "highest medal achieved": ""
+    highestMedal: "",
   });
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     });
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Add isVisible property for new hog
-    addHog({ ...formData, weight: parseFloat(formData.weight), isVisible: true });
-
-    // Reset form
+    const newHog = {
+      name: formData.name,
+      image: formData.image,
+      specialty: formData.specialty,
+      weight: Number(formData.weight),
+      greased: formData.greased,
+      highestMedal: formData.highestMedal,
+    };
+    addHog(newHog);
     setFormData({
       name: "",
       image: "",
       specialty: "",
       weight: "",
       greased: false,
-      "highest medal achieved": ""
+      highestMedal: "",
     });
   };
+  
 
   return (
     <form className="ui form" onSubmit={handleSubmit}>
-      <h3>Add a New Hog</h3>
-
+      <h2>Add a New Hog</h2>
       <div className="field">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">Name:</label>
         <input
           id="name"
           name="name"
-          type="text"
+          required
           value={formData.name}
           onChange={handleChange}
-          required
         />
       </div>
-
       <div className="field">
-        <label htmlFor="image">Image URL</label>
+        <label htmlFor="image">Image URL:</label>
         <input
           id="image"
           name="image"
-          type="text"
+          required
           value={formData.image}
           onChange={handleChange}
-          required
         />
       </div>
-
       <div className="field">
-        <label htmlFor="specialty">Specialty</label>
+        <label htmlFor="specialty">Specialty:</label>
         <input
           id="specialty"
           name="specialty"
-          type="text"
           value={formData.specialty}
           onChange={handleChange}
         />
       </div>
-
       <div className="field">
-        <label htmlFor="weight">Weight</label>
+        <label htmlFor="weight">Weight:</label>
         <input
           id="weight"
           name="weight"
           type="number"
-          step="0.1"
           value={formData.weight}
           onChange={handleChange}
         />
       </div>
-
       <div className="field">
         <input
           id="greased"
@@ -96,21 +90,18 @@ function AddHogForm({ addHog }) {
           checked={formData.greased}
           onChange={handleChange}
         />
-        <label htmlFor="greased">Greased</label>
+        <label htmlFor="greased">Greased?</label>
       </div>
-
       <div className="field">
-        <label htmlFor="highest-medal">Highest Medal Achieved</label>
+        <label htmlFor="highestMedal">Highest Medal Achieved:</label>
         <input
-          id="highest-medal"
-          name="highest medal achieved"
-          type="text"
-          value={formData["highest medal achieved"]}
+          id="highestMedal"
+          name="highestMedal"
+          value={formData.highestMedal}
           onChange={handleChange}
         />
       </div>
-
-      <button className="ui button primary" type="submit">
+      <button type="submit" className="ui button primary">
         Add Hog
       </button>
     </form>

@@ -1,11 +1,12 @@
+import React from "react";
 import HogCard from "./HogCard";
 
-function HogContainer({ hogs, onHide }) {
+function HogContainer({ hogs, removeHog }) {
   return (
     <div className="ui grid container">
-      {hogs.map(hog => (
+      {hogs.map((hog) => (
         <div key={hog.name} className="ui eight wide column">
-          <HogCard hog={hog} onHide={onHide} />
+          <HogCard hog={hog} hideHog={() => removeHog(hog.name)} />
         </div>
       ))}
     </div>
